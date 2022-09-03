@@ -1,0 +1,38 @@
+{
+    "name": "whatsappbot",
+    "version": "5.0.0",
+    "description": "Untuk bot Whatsapp versi wa-automate, yang memungkinkan mengirim pesan, gambar, stiker, video, dll secara otomatis sesuai perintah yang dimasukkan dalam script",
+    "main": "index.js",
+    "directories": {
+        "lib": "lib"
+    },
+    "dependencies": {
+        "@open-wa/wa-automate": "^4.44.5",
+        "@open-wa/wa-decrypt": "^4.4.0",
+        "axios": "^0.27.2",
+        "cheerio": "^1.0.0-rc.12",
+        "moment": "^2.29.4",
+        "moment-timezone": "^0.5.37",
+        "urlencode": "^1.1.0"
+    },
+    "scripts": {
+        "start": "./optimize&&node index.js",
+        "keluar": "rm -rf _IGNORE_cr4r cr4r.data.json .node-persist&>/dev/null&&./optimize&>/dev/null"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cr4r1/botwat.git"
+    },
+    "keywords": [
+        "whatsapp",
+        "bot",
+        "automate",
+        "otomatis"
+    ],
+    "author": "cr4r",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/cr4r1/botwat/issues"
+    },
+    "homepage": "https://github.com/cr4r1/botwat#readme"
+}

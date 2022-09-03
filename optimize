@@ -1,0 +1,3 @@
+pkill -9 chrome
+pkill -9 "Google Chrome"
+ulimit -S unlimited
