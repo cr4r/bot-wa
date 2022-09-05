@@ -1,4 +1,4 @@
-<h3 align="center">Di edit oleh</h3>
+<h3 align="center">Diedit oleh</h3>
 <p align="center">
   <a href="https://github.com/cr4r"><img src="https://avatars.githubusercontent.com/u/53891732?v=4" height="128" width="128" /></a>
 </p>
