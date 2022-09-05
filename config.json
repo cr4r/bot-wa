@@ -1,0 +1,28 @@
+{
+    "ownerBot": "6282237416678@c.us",
+    "prefix": ".",
+    "uaOverride": "WhatsApp/2.2037.6 Mozilla/5.0 (CR4R; Coders Family X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36",
+    "nao": "api-key",
+    "vhtear": "api-key",
+    "melodic": "administrator",
+    "tobz": "api-key",
+    "lol": "api-key",
+    "authorStick": "@cr4r",
+    "packStick": "CodersFamily",
+    "stiker": {
+        "img": {
+            "author": "Coders Family",
+            "pack": "CR4R",
+            "keepScale": true
+        },
+        "video": {
+            "stickerMetadata": true,
+            "pack": "Coders Family",
+            "author": "CR4R",
+            "fps": 30,
+            "startTime": "00:00:00.0",
+            "crop": false,
+            "loop": 0
+        }
+    }
+}

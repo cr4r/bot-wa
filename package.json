@@ -1,39 +1,33 @@
 {
-    "name": "whatsappbot",
-    "version": "5.0.0",
+    "name": "bot-wa",
+    "version": "0.1.0",
     "description": "Untuk bot Whatsapp versi wa-automate, yang memungkinkan mengirim pesan, gambar, stiker, video, dll secara otomatis sesuai perintah yang dimasukkan dalam script",
     "main": "index.js",
-    "directories": {
-        "lib": "lib"
-    },
-    "dependencies": {
-        "@open-wa/wa-automate": "^4.45.2",
-        "@open-wa/wa-decrypt": "^4.4.0",
-        "axios": "^0.27.2",
-        "cheerio": "^1.0.0-rc.12",
-        "moment": "^2.29.4",
-        "moment-timezone": "^0.5.37",
-        "urlencode": "^1.1.0"
-    },
     "scripts": {
-        "optimize": "pkill -9 chrome",
-        "start": "node index.js",
-        "keluar": "rm -rf _IGNORE_cr4r cr4r.data.json&>/dev/null&&npm run optimize"
+        "start": "node index.js"
     },
+    "author": "CR4R",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/cr4r1/botwat.git"
+        "url": "https://github.com/cr4r/bot-wa.git"
     },
-    "keywords": [
-        "whatsapp",
-        "bot",
-        "automate",
-        "otomatis"
-    ],
-    "author": "cr4r",
-    "license": "ISC",
     "bugs": {
-        "url": "https://github.com/cr4r1/botwat/issues"
+        "url": "https://github.com/cr4r/bot-wa/issues"
     },
-    "homepage": "https://github.com/cr4r1/botwat#readme"
+    "homepage": "https://github.com/cr4r/bot-wa",
+    "license": "MIT",
+    "dependencies": {
+        "@open-wa/wa-automate": "^4.46.0",
+        "await-exec": "^0.1.2",
+        "discord-canvas": "^1.4.1",
+        "express": "^4.18.1",
+        "figlet": "^1.5.2",
+        "is-porn": "^0.9.0",
+        "moment-timezone": "^0.5.37",
+        "node-cron": "^3.0.2",
+        "video-url-link": "git+https://github.com/YogaSakti/video-url-link.git"
+    },
+    "devDependencies": {
+        "eslint": "^8.0.0"
+    }
 }
