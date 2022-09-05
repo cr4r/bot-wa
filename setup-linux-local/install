@@ -1,0 +1,56 @@
+#!/bin/bash
+msg() {
+  BRAN='\033[1;37m' && VERMELHO='\e[31m' && VERDE='\e[32m' && AMARELO='\e[33m'
+  AZUL='\e[34m' && MAGENTA='\e[35m' && MAG='\033[1;36m' && NEGRITO='\e[1m' && SEMCOR='\e[0m'
+  case $1 in
+  -ne) cor="${VERMELHO}${NEGRITO}" && echo -ne "${cor}${2}${SEMCOR}" ;;
+  -ama) cor="${AMARELO}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}" ;;
+  -verm) cor="${AMARELO}${NEGRITO}[!] ${VERMELHO}" && echo -e "${cor}${2}${SEMCOR}" ;;
+  -azu) cor="${MAG}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}" ;;
+  -verd) cor="${VERDE}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}" ;;
+  -bra) cor="${BRAN}${NEGRITO}" && echo -ne "${cor}${2}${SEMCOR}" ;;
+  -bar2) cor="${AZUL}${NEGRITO}======================================================" && echo -e "${cor}${SEMCOR}" ;;
+  -bar) cor="${AZUL}${NEGRITO}========================================" && echo -e "${cor}${SEMCOR}" ;;
+  esac
+}
+msg -bar2
+msg -ama "PERHATIAN !!!"
+msg -ama "Script Bot Whatsapp ini"
+msg -ama "Recomended Distro"
+msg -ama "Ubuntu / Debian"
+msg -bar2
+msg -ama "Sedang Menginstall Module JS, mohon tunggu sebentar"
+npm i &>/dev/null && npm audit fix &>/dev/null
+msg -bar2
+msg -ne "Jika Error, Silahkan update NODEJS mu!\n"
+msg -bar2
+msg -ama "Sedang mencari dan menginstall tool pendukung"
+
+echo "sudo apt-get update&&sudo apt-get upgrade -y&&sudo apt-get dist-upgrade -y&&sudo apt-get autoremove -y" >/bin/update && sudo chmod 777 /bin/update
+
+cek_module() {
+  [[ $(dpkg --get-selections | grep -w "imagemagick" | head -1) ]] || sudo apt install imagemagick -y &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "wget" | head -1) ]] || sudo apt-get install wget -y &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "nmap" | head -1) ]] || sudo apt-get install nmap -y &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "python3" | head -1) ]] || sudo apt install python3 -y &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "python3-pip" | head -1) ]] || sudo apt install python3-pip &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "google-chrome" | head -1) ]] || ./installChrome &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "sudo" | head -1) ]] || pip3 install ipaddress &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "pm2" | head -1) ]] || npm install -y pm2 -g &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "wget" | head -1) ]] || sudo apt-get install wget -y &>/dev/null
+
+  [[ $(dpkg --get-selections | grep -w "build-essential" | head -1) ]] || sudo apt install build-essential -y &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "libcairo2-dev" | head -1) ]] || sudo apt install libcairo2-dev -y &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "libpango1.0-dev" | head -1) ]] || sudo apt install libpango1.0-dev -y &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "libjpeg-dev" | head -1) ]] || sudo apt install libjpeg-dev -y &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "libgif-dev" | head -1) ]] || sudo apt install libgif-dev -y &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "librsvg2-dev" | head -1) ]] || sudo apt install librsvg2-dev -y &>/dev/null
+  [[ $(dpkg --get-selections | grep -w "node-gyp" | head -1) ]] || npm install node-gyp -g &>/dev/null
+}
+# Fix Canvas
+cek_module
+sudo apt install libx11-6=2:1.6.9-2ubuntu1.2 -y &>/dev/null
+cek_module
+
+msg -bar2
+msg -ama "Cek versi node (node -v), jika versi node di bawah 11, maka lakukan install nodejs versi terbaru dengan cara ./installNode"

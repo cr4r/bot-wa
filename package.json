@@ -4,7 +4,8 @@
     "description": "Untuk bot Whatsapp versi wa-automate, yang memungkinkan mengirim pesan, gambar, stiker, video, dll secara otomatis sesuai perintah yang dimasukkan dalam script",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js"
+        "start": "node index.js",
+        "ubuntu": "./setup-linux-local/install"
     },
     "author": "CR4R",
     "repository": {

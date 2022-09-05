@@ -1,41 +1,39 @@
 <div align="center">
-<img src="https://images5.alphacoders.com/911/911614.png" alt="BocchiBot" width="500" />
+<img src="https://images5.alphacoders.com/911/911614.png" alt="bot-wa" width="500" />
 
-# **BocchiBot**
+# **bot-wa**
 
-> BocchiBot is a multipurpose WhatsApp bot using wa-automate-nodejs library!
+> bot-wa is a multipurpose WhatsApp bot using wa-automate-nodejs library!
 >
 >
 
 <h3 align="center">Made with ❤️ by</h3>
 <p align="center">
-  <a href="https://github.com/SlavyanDesu"><img src="https://avatars3.githubusercontent.com/u/28254882?s=400&u=25765902db0b709938966cf4127ac11af5eafb5d&v=4" height="128" width="128" /></a>
-  <a href="https://github.com/AlvioAdjiJanuar"><img src="https://avatars2.githubusercontent.com/u/68207798?s=400&u=29439908cd661d11443391cb74f5b07267b71117&v=4" height="128" width="128" /></a>
-  <a href="https://github.com/VideFrelan"><img src="https://avatars1.githubusercontent.com/u/76523793?s=400&u=365f732cd3fc09ce75f6556715a00386005db57c&v=4" height="128" width="128" /></a>
+  <a href="https://github.com/cr4r"><img src="https://avatars3.githubusercontent.com/u/28254882?s=400&u=25765902db0b709938966cf4127ac11af5eafb5d&v=4" height="128" width="128" /></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/SlavyanDesu"><img title="Author" src="https://img.shields.io/badge/Author-SlavyanDesu-purple.svg?style=for-the-badge&logo=github" /></a>
+  <a href="https://github.com/cr4r"><img title="Author" src="https://img.shields.io/badge/Author-cr4r-purple.svg?style=for-the-badge&logo=github" /></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/SlavyanDesu/BocchiBot"><img title="Stars" src="https://img.shields.io/github/stars/SlavyanDesu/BocchiBot?color=red&style=flat-square" /></a>
-  <a href="https://github.com/SlavyanDesu/BocchiBot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/SlavyanDesu/BocchiBot?color=red&style=flat-square" /></a>
-  <a href="https://github.com/SlavyanDesu/BocchiBot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/SlavyanDesu/BocchiBot?label=watchers&color=blue&style=flat-square" /></a> <br>
+  <a href="https://github.com/cr4r/bot-wa"><img title="Stars" src="https://img.shields.io/github/stars/cr4r/bot-wa?color=red&style=flat-square" /></a>
+  <a href="https://github.com/cr4r/bot-wa/network/members"><img title="Forks" src="https://img.shields.io/github/forks/cr4r/bot-wa?color=red&style=flat-square" /></a>
+  <a href="https://github.com/cr4r/bot-wa/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/cr4r/bot-wa?label=watchers&color=blue&style=flat-square" /></a> <br>
   <a href="https://www.npmjs.com/package/@open-wa/wa-automate"><img src="https://img.shields.io/npm/v/@open-wa/wa-automate.svg?color=green" /></a>
   <img src="https://img.shields.io/node/v/@open-wa/wa-automate" />
   <img src="https://img.shields.io/badge/maintained%3F-yes-green.svg?style=flat" />
-  <img src="https://img.shields.io/github/repo-size/SlavyanDesu/BocchiBot" /> <br>
-  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot.svg?type=shield"/></a>
-  <a href="https://www.codefactor.io/repository/github/SlavyanDesu/BocchiBot"><img src="https://www.codefactor.io/repository/github/SlavyanDesu/BocchiBot/badge" /></a>
+  <img src="https://img.shields.io/github/repo-size/cr4r/bot-wa" /> <br>
+  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fcr4r%2Fbot-wa?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fcr4r%2Fbot-wa.svg?type=shield"/></a>
+  <a href="https://www.codefactor.io/repository/github/cr4r/bot-wa"><img src="https://www.codefactor.io/repository/github/cr4r/bot-wa/badge" /></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/SlavyanDesu/BocchiBot#requirements">Requirements</a> •
-  <a href="https://github.com/SlavyanDesu/BocchiBot#installation">Installation</a> •
-  <a href="https://github.com/SlavyanDesu/BocchiBot#features">Features</a> •
-  <a href="https://github.com/SlavyanDesu/BocchiBot#thanks-to">Thanks to</a> •
-  <a href="https://github.com/SlavyanDesu/BocchiBot#license">License</a>
+  <a href="https://github.com/cr4r/bot-wa#requirements">Requirements</a> •
+  <a href="https://github.com/cr4r/bot-wa#installation">Installation</a> •
+  <a href="https://github.com/cr4r/bot-wa#features">Features</a> •
+  <a href="https://github.com/cr4r/bot-wa#thanks-to">Thanks to</a> •
+  <a href="https://github.com/cr4r/bot-wa#license">License</a>
 </p>
 </div
   
@@ -58,24 +56,45 @@
 # Installation
 ## 📝 Cloning this repo
 ```cmd
-> git clone https://github.com/SlavyanDesu/BocchiBot.git
-> cd BocchiBot
+> git clone https://github.com/cr4r/bot-wa.git
+> cd bot-wa
+```
+
+## 📝 Instalasi peralatan di OS ubuntu
+```cmd
+> npm run ubuntu
 ```
 
 ## ✍️ Editing the file
 Edit the required value in `config.json`.
 ```json
 {
-    "ownerBot": "62812xxxxxxxx@c.us", 
-    "prefix": "$",
-    "uaOverride": "WhatsApp/2.2037.6 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36",
+    "ownerBot": "628xxxxxx@c.us",
+    "prefix": ".",
+    "uaOverride": "WhatsApp/2.2037.6 Mozilla/5.0 (CR4R; Coders Family X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36",
     "nao": "api-key",
     "vhtear": "api-key",
     "melodic": "administrator",
-    "tobz": "BotWeA",
+    "tobz": "api-key",
     "lol": "api-key",
-    "authorStick": "@SlavyanDesu",
-    "packStick": "BocchiBot"
+    "authorStick": "@cr4r",
+    "packStick": "CodersFamily",
+    "stiker": {
+        "img": {
+            "author": "Coders Family",
+            "pack": "CR4R",
+            "keepScale": true
+        },
+        "video": {
+            "stickerMetadata": true,
+            "pack": "Coders Family",
+            "author": "CR4R",
+            "fps": 30,
+            "startTime": "00:00:00.0",
+            "crop": false,
+            "loop": 0
+        }
+    }
 }
 ```
 
@@ -89,6 +108,7 @@ Edit the required value in `config.json`.
 `lol`: LolHuman API key. You can get it [here](https://lolhuman.herokuapp.com/) by creating an account.  
 `authorStick`: name of the author sticker pack.  
 `packStick`: name of the sticker pack.  
+`stiker`: Config stiker. 
 
 ## 🗣️ Changing language
 If you want to change the language to English, replace all `ind` function to `eng`.   
@@ -362,11 +382,12 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 * [`irham01`](https://github.com/irham01)
 * [`hardiantojek93`](https://github.com/hardiantojek93)
 * [`gamingrkp`](https://github.com/gamingrkp)
+* [`BocchiBot`](https://github.com/SlavyanDesu/BocchiBot/)
 
 # License
-**BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
-Authored and maintained by SlavyanDesu.
+**bot-wa** © [cr4r](https://github.com/cr4r), released under the MIT License.
+Authored and maintained by cr4r.
 
 <p align="center">
-  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot.svg?type=large" />
+  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fcr4r%2Fbot-wa?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fcr4r%2Fbot-wa.svg?type=large" />
 </p>
