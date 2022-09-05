@@ -1,15 +1,6 @@
-<div align="center">
-<img src="https://images5.alphacoders.com/911/911614.png" alt="bot-wa" width="500" />
-
-# **bot-wa**
-
-> bot-wa is a multipurpose WhatsApp bot using wa-automate-nodejs library!
->
->
-
-<h3 align="center">Made with ❤️ by</h3>
+<h3 align="center">Di edit oleh</h3>
 <p align="center">
-  <a href="https://github.com/cr4r"><img src="https://avatars3.githubusercontent.com/u/28254882?s=400&u=25765902db0b709938966cf4127ac11af5eafb5d&v=4" height="128" width="128" /></a>
+  <a href="https://github.com/cr4r"><img src="https://avatars.githubusercontent.com/u/53891732?v=4" height="128" width="128" /></a>
 </p>
 
 <p align="center">
