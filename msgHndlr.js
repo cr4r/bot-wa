@@ -25,7 +25,7 @@ module.exports = msgHandler = async (rahman, message) => {
     const command = commands.toLowerCase().split(' ')[0] || ''
     const args = commands.split(' ')
 
-    const msgss = msgs(command)
+    const msgss = await msgs(command);
 
     function aca(lsls) { return lsls[Math.floor(Math.random() * lsls.length)] }
 
@@ -33,10 +33,10 @@ module.exports = msgHandler = async (rahman, message) => {
     let groupId = isGroupMsg ? chat.groupMetadata.id : ''
 
     let isBlocked = await cekBlokir(rahman, sender)
-
+    console.log(body, sender)
     const uaOverride = 'WhatsApp/2.2029.4 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
-    if (!isGroupMsg && command.startsWith('')) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mPerintah dari Chat\x1b[1;37m]', time, '\n', color(msgss(command)), 'from', color(pushname))
-    if (isGroupMsg && command.startsWith('')) console.log('\x1b[1;31m~\x1b[1;37m>', time, `[\x1b[1;32mPerintah dari Grub: ${color(formattedTitle)}\x1b[1;37m]`, '\n', color(msgss(command)), 'from', color(pushname))
+    if (!isGroupMsg && command.startsWith('')) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mPerintah dari Chat\x1b[1;37m]', time, '\n', color(msgss), 'from', color(pushname))
+    if (isGroupMsg && command.startsWith('')) console.log('\x1b[1;31m~\x1b[1;37m>', time, `[\x1b[1;32mPerintah dari Grub: ${color(formattedTitle)}\x1b[1;37m]`, '\n', color(msgss), 'from', color(pushname))
     if (!isGroupMsg && !command.startsWith('')) console.log('\x1b[1;33m~\x1b[1;37m>', '[\x1b[1;31mChat\x1b[1;37m]', time, '\n', color(body), 'from', color(pushname))
     if (isGroupMsg && !command.startsWith('')) console.log('\x1b[1;33m~\x1b[1;37m>', '[\x1b[1;31mChat Grub\x1b[1;37m]', time, '\n', color(body), 'from', color(pushname), 'in', color(formattedTitle))
     console.log('==========================================')

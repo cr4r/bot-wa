@@ -13,11 +13,11 @@ const start = async (rahman = new Client()) => {
 
   // listening on message
   rahman.onAnyMessage((async (message) => {
-    rahman.getAmountOfLoadedMessages().then((msg) => {
-      if (msg >= 3000) {
-        rahman.cutMsgCache()
-      }
-    })
+    // rahman.getAmountOfLoadedMessages().then((msg) => {
+    //   if (msg >= 3000) {
+    //     rahman.cutMsgCache()
+    //   }
+    // })
     msgHandler(rahman, message)
   }))
 
