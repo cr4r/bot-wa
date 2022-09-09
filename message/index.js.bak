@@ -1547,6 +1547,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, ind.stickerAddAlready(q), id)
                     } else { 
                         _stick.push(q)
+                        
                         fs.writeFileSync('./database/sticker.json', JSON.stringify(_stick))
                         const mediaData = await decryptMedia(quotedMsg, uaOverride)
                         fs.writeFileSync(`./temp/sticker/${q}.webp`, mediaData)

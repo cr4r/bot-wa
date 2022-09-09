@@ -23,6 +23,13 @@
             "startTime": "00:00:00.0",
             "crop": false,
             "loop": 0
+        },
+        "txtPng": {
+            "font": "30px sans-serif",
+            "textAlign": "left",
+            "borderColor": "black",
+            "backgroundColor": "transparent",
+            "lineSpacing": 0
         }
     }
 }

@@ -83,7 +83,7 @@ module.exports = msgHandler = async (rahman = new Client(), message) => {
         const prefix = config.prefix
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video' || type === 'buttons_response') && caption) && caption.startsWith(prefix)) ? caption : ''
-        const args = body.trim().split(/ +/).slice(1)
+        let args = body.trim().split(/ +/).slice(1)
         const uaOverride = config.uaOverride
 
         /********** VALIDATOR **********/
@@ -258,16 +258,6 @@ module.exports = msgHandler = async (rahman = new Client(), message) => {
         if (isCmd && msgFilter.isFiltered(from) && !isGroupMsg) return console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
         if (isCmd && msgFilter.isFiltered(from) && isGroupMsg) return console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
-        // Log
-        if (isCmd && !isGroupMsg) {
-            console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
-            await rahman.sendSeen(from)
-        }
-        if (isCmd && isGroupMsg) {
-            console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
-            await rahman.sendSeen(from)
-        }
-
         // Anti spam
         if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
 
@@ -278,15 +268,20 @@ module.exports = msgHandler = async (rahman = new Client(), message) => {
         Object.keys(flChat).forEach(async (isi) => {
             let nlChat = fpChat[isi];
             if (nlChat.nama.includes(command)) {
-                return await nlChat[isi][isi](rahman, message, { cmd, command, prefix, chats, isCmd, isBlocked, isOwner, isBanned, isPremium, isRegistered, isGroupAdmins, isBotGroupAdmins, isNsfw, isWelcomeOn, isDetectorOn, isLevelingOn, isAutoStickerOn, isAntiNsfw, isMute, isAfkOn, isQuotedImage, isQuotedVideo, isQuotedSticker, isQuotedGif, isQuotedAudio, isQuotedVoice, isImage, isVideo, isAudio, isVoice, isGif })
+                args = args.join(' ')
+                return await nlChat[isi][isi](rahman, message, { args, cmd, command, prefix, chats, isCmd, isBlocked, isOwner, isBanned, isPremium, isRegistered, isGroupAdmins, isBotGroupAdmins, isNsfw, isWelcomeOn, isDetectorOn, isLevelingOn, isAutoStickerOn, isAntiNsfw, isMute, isAfkOn, isQuotedImage, isQuotedVideo, isQuotedSticker, isQuotedGif, isQuotedAudio, isQuotedVoice, isImage, isVideo, isAudio, isVoice, isGif })
             }
         })
 
         // Interaksi dengan prefix
         Object.keys(fpChat).forEach(async (isi) => {
             let npChat = fpChat[isi];
-            if (command.slice(0, 1) == prefix && npChat.nama.includes(command.slice(1, command.length))) {
-                return await npChat[isi][isi](rahman, message, { cmd, command, prefix, chats, isCmd, isBlocked, isOwner, isBanned, isPremium, isRegistered, isGroupAdmins, isBotGroupAdmins, isNsfw, isWelcomeOn, isDetectorOn, isLevelingOn, isAutoStickerOn, isAntiNsfw, isMute, isAfkOn, isQuotedImage, isQuotedVideo, isQuotedSticker, isQuotedGif, isQuotedAudio, isQuotedVoice, isImage, isVideo, isAudio, isVoice, isGif })
+            if (command.slice(0, 1) == prefix && npChat.nama.includes(command.slice(1, command.length).split(':')[0])) {
+                // Log
+                if (isCmd && !isGroupMsg) console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
+                if (isCmd && isGroupMsg) console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
+                args = args.join(' ')
+                return await npChat[isi][isi](rahman, message, { args, cmd, command, prefix, chats, isCmd, isBlocked, isOwner, isBanned, isPremium, isRegistered, isGroupAdmins, isBotGroupAdmins, isNsfw, isWelcomeOn, isDetectorOn, isLevelingOn, isAutoStickerOn, isAntiNsfw, isMute, isAfkOn, isQuotedImage, isQuotedVideo, isQuotedSticker, isQuotedGif, isQuotedAudio, isQuotedVoice, isImage, isVideo, isAudio, isVoice, isGif })
             }
         })
     } catch (err) {
