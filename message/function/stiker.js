@@ -1,9 +1,6 @@
-const { decryptMedia } = require('@open-wa/wa-decrypt')
-const { fail } = require("../text/lang/ind.js")
-
 const textToImage = require('text2png')
 
-exports.stiker = async (rahman, message, { args, perintah, mediaEncrypt, isQuotedSticker, configStiker, uaOverride, isUrl }) => {
+exports.stiker = async (rahman, message, { args, perintah, mediaEncrypt, isQuotedSticker, configStiker, uaOverride, isUrl, ind, decryptMedia }) => {
   const { txtPng } = configStiker
   const { id, from } = message
   const { type, mimetype } = mediaEncrypt
@@ -26,14 +23,14 @@ exports.stiker = async (rahman, message, { args, perintah, mediaEncrypt, isQuote
 
       // Convert gambar ke stiker | (kirim gambar) ketik .stiker
       if (type == "image") {
-        rahman.sendImageAsSticker(from, imageBase64, stiker.img).catch(err => rahman.reply(from, fail, id))
+        rahman.sendImageAsSticker(from, imageBase64, stiker.img).catch(err => rahman.reply(from, ind.fail, id))
       }
       // Convert video ke stiker bergerak | (Kirim video / Gif) ketik .stiker
       else if (type == "video" || jenis[1] == 'gif') {
         // Video dibatasi 30 detik
         if (mediaEncrypt.duration <= 30) {
           rahman.reply(from, 'Tunggu sebentar, proses konvert video ke stiker', id)
-          rahman.sendMp4AsSticker(from, imageBase64, null, stiker.video).catch(err => rahman.reply(from, fail, id))
+          rahman.sendMp4AsSticker(from, imageBase64, null, stiker.video).catch(err => rahman.reply(from, ind.fail, id))
         } else {
           rahman.reply(from, 'Batas durasi Video hanya bisa 30 detik', id);
         }
@@ -48,12 +45,12 @@ exports.stiker = async (rahman, message, { args, perintah, mediaEncrypt, isQuote
     else if (type == 'chat') {
       // Convert text to stiker | .stiker:img text anda 
       if (perintah.length > 1 && cnvrt.includes(perintah[1]) && mediaData.match(isUrl)) {
-        rahman.sendStickerfromUrl(from, mediaData, { method: 'get' }).catch(err => rahman.reply(from, fail, id))
+        rahman.sendStickerfromUrl(from, mediaData, { method: 'get' }).catch(err => rahman.reply(from, ind.fail, id))
       }
       // link gambar to stiker | .stiker https://.....jpg
       else if (args.length > 0) {
         let hasil = await textToImage(mediaData, txtPng)
-        rahman.sendImageAsSticker(from, hasil, stiker.img).catch(err => rahman.reply(from, fail, id))
+        rahman.sendImageAsSticker(from, hasil, stiker.img).catch(err => rahman.reply(from, ind.fail, id))
       } else {
         rahman.reply(from, 'Perintah stiker salah!', id)
       }

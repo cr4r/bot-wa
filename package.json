@@ -21,6 +21,7 @@
         "@justalk/pornhub-api": "^3.5.0",
         "@open-wa/wa-automate": "^4.46.2",
         "await-exec": "^0.1.2",
+        "canvacord": "^5.4.6",
         "discord-canvas": "^1.4.1",
         "express": "^4.18.1",
         "figlet": "^1.5.2",

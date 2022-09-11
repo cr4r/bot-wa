@@ -24,6 +24,7 @@ const isPorn = require('is-porn')
 const config = require('../config.json')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const cron = require('node-cron')
+const canvas = require('canvacord')
 
 const levelRole = require('./levelRole');
 const configStiker = require('../config').stiker
@@ -267,7 +268,8 @@ module.exports = msgHandler = async (rahman = new Client(), message) => {
             "mediaEncrypt": isQuotedImage | isQuotedVideo | isQuotedSticker | isQuotedGif | isQuotedAudio | isQuotedVoice ? quotedMsg : message,
             "configStiker": config.stiker,
             "uaOverride": config.uaOverride,
-            args, _registered, time, ind, isUrl,
+            "args": args.join(' '),
+            _registered, time, ind, isUrl, level, canvas, decryptMedia,
             cmd, command, prefix, chats, isCmd, isBlocked,
             isOwner, isBanned, isPremium, isRegistered, isGroupAdmins,
             isBotGroupAdmins, isNsfw, isWelcomeOn, isDetectorOn, isLevelingOn,
@@ -281,14 +283,13 @@ module.exports = msgHandler = async (rahman = new Client(), message) => {
         Object.keys(flChat).forEach(async (isi) => {
             let nlChat = fpChat[isi];
             if (nlChat.nama.includes(command)) {
-                args = args.join(' ')
                 return await nlChat[isi][isi](rahman, message, optionMSG)
             }
         })
 
         // Perintah yang harus register dulu
         // Interaksi dengan prefix
-        if (!isRegistered ) return await rahman.reply(from, ind.notRegistered(), id)
+        if (!isRegistered) return await rahman.reply(from, ind.notRegistered(), id)
         Object.keys(fpChat).forEach(async (isi) => {
             // Melarang menggunakan bot tanpa register
             let npChat = fpChat[isi];
