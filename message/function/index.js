@@ -1,5 +1,6 @@
 exports.stiker = require('./stiker')
 exports.emoji = require('./emoji')
+exports.shortlink = require('./shortlink')
 
 
 // Seting bot

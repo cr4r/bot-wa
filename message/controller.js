@@ -1,13 +1,13 @@
-const { stiker, emoji, register, level } = require('./function');
+const { stiker, emoji, register, level, shortlink } = require('./function');
 
 module.exports = {
   "langsung": {
     "register": {
-      nama: ["regis", "daftar", "registrasi"],
+      nama: ["regis", "register", "daftar", "registrasi"],
       register
     },
-    "level":{
-      nama:["level", "lvl", "levelup"],
+    "level": {
+      nama: ["level", "lvl", "levelup"],
       level
     }
   },
@@ -20,5 +20,9 @@ module.exports = {
       nama: ["emoji", "emogi", "emot"],
       emoji
     },
+    "shortlink": {
+      nama: ["shortlink"],
+      shortlink
+    }
   }
 }

@@ -25,6 +25,7 @@ const config = require('../config.json')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const cron = require('node-cron')
 const canvas = require('canvacord')
+const Math = require('math')
 
 const levelRole = require('./levelRole');
 const configStiker = require('../config').stiker
@@ -38,8 +39,11 @@ let flChat = require('./controller').langsung;
 
 /********** UTILS **********/
 const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools')
+const { misc } = require('../lib')
 const { ind } = require('./text/lang/')
-const { level, register, afk, premium } = require('../function')
+const { level, register, afk, premium, limit } = require('../function')
+const limitCount = 25
+
 /********** END OF UTILS **********/
 
 /********** DATABASES **********/
@@ -84,9 +88,11 @@ module.exports = msgHandler = async (rahman = new Client(), message) => {
         const prefix = config.prefix
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video' || type === 'buttons_response') && caption) && caption.startsWith(prefix)) ? caption : ''
-        let args = body.trim().split(/ +/).slice(1)
 
-        const isUrl = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/gi)
+        let args = body.trim().split(/ +/).slice(1)
+        const url = args.length !== 0 ? args[0] : ''
+        const q = args.join(' ')
+        const ar = args.map((v) => v.toLowerCase())
 
         /********** VALIDATOR **********/
         const isCmd = body.startsWith(prefix)
@@ -268,20 +274,20 @@ module.exports = msgHandler = async (rahman = new Client(), message) => {
             "mediaEncrypt": isQuotedImage | isQuotedVideo | isQuotedSticker | isQuotedGif | isQuotedAudio | isQuotedVoice ? quotedMsg : message,
             "configStiker": config.stiker,
             "uaOverride": config.uaOverride,
-            "args": args.join(' '),
-            _registered, time, ind, isUrl, level, canvas, decryptMedia,
+            _registered, time, ind, url, isUrl, level, canvas, decryptMedia,
+            limit, _limit, limitCount, misc, Math, ar, q,
             cmd, command, prefix, chats, isCmd, isBlocked,
             isOwner, isBanned, isPremium, isRegistered, isGroupAdmins,
             isBotGroupAdmins, isNsfw, isWelcomeOn, isDetectorOn, isLevelingOn,
             isAutoStickerOn, isAntiNsfw, isMute, isAfkOn, isQuotedImage, isQuotedVideo,
             isQuotedSticker, isQuotedGif, isQuotedAudio, isQuotedVoice, isImage, isVideo,
-            isAudio, isVoice, isGif
+            isAudio, isVoice, isGif, color
         }
 
 
         // Interaksi tanpa prefix
         Object.keys(flChat).forEach(async (isi) => {
-            let nlChat = fpChat[isi];
+            let nlChat = flChat[isi];
             if (nlChat.nama.includes(command)) {
                 return await nlChat[isi][isi](rahman, message, optionMSG)
             }

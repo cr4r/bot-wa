@@ -1,16 +1,12 @@
-exports.register = async (rahman, message, { args, _registered, time }) => {
-  const { isGroupMsg } = message;
-
-  let q = args.split(':');
-
-  args = args.join(' ')
+exports.register = async (rahman, message, { perintah, q, _registered, time, ind, isRegistered, register, color }) => {
+  const { isGroupMsg, from, id, sender } = message;
 
   if (isRegistered) return await rahman.reply(from, ind.registeredAlready(), id)
   if (isGroupMsg) return await rahman.reply(from, ind.pcOnly(), id)
-  if (!args.includes(':') || q.length != 2) return await rahman.reply(from, ind.wrongFormat(), id)
+  if (!q.includes(':') || perintah.length != 2) return await rahman.reply(from, ind.wrongFormat(), id)
 
-  const namaUser = q[0].trim()
-  const umurUser = q[1].trim()
+  const namaUser = perintah[0].trim()
+  const umurUser = perintah[1].trim()
 
   const serialUser = createSerial(20)
   if (Number(umurUser) >= 50) return await rahman.reply(from, ind.ageOld(), id)

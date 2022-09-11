@@ -1,6 +1,6 @@
 const textToImage = require('text2png')
 
-exports.stiker = async (rahman, message, { args, perintah, mediaEncrypt, isQuotedSticker, configStiker, uaOverride, isUrl, ind, decryptMedia }) => {
+exports.stiker = async (rahman, message, { q, args, perintah, mediaEncrypt, isQuotedSticker, configStiker, uaOverride, isUrl, ind, decryptMedia }) => {
   const { txtPng } = configStiker
   const { id, from } = message
   const { type, mimetype } = mediaEncrypt
@@ -15,7 +15,7 @@ exports.stiker = async (rahman, message, { args, perintah, mediaEncrypt, isQuote
 
   // Jika mengirim gambar langsung text
   try {
-    const mediaData = type != 'chat' ? await decryptMedia(mediaEncrypt, uaOverride) : args.join(' ');
+    const mediaData = type != 'chat' ? await decryptMedia(mediaEncrypt, uaOverride) : q;
 
     if (type != 'chat') {
       const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`;
@@ -44,7 +44,7 @@ exports.stiker = async (rahman, message, { args, perintah, mediaEncrypt, isQuote
     }
     else if (type == 'chat') {
       // Convert text to stiker | .stiker:img text anda 
-      if (perintah.length > 1 && cnvrt.includes(perintah[1]) && mediaData.match(isUrl)) {
+      if (perintah.length > 1 && cnvrt.includes(perintah[1]) && isUrl(mediaData)) {
         rahman.sendStickerfromUrl(from, mediaData, { method: 'get' }).catch(err => rahman.reply(from, ind.fail, id))
       }
       // link gambar to stiker | .stiker https://.....jpg

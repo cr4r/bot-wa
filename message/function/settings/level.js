@@ -1,12 +1,15 @@
-exports.level = async (rahman, message, { isRegistered, isLevelingOn, isGroupMsg, level }) => {
+exports.level = async (rahman, message, { isRegistered, isLevelingOn, isGroupMsg, level, ind, Math, canvas }) => {
+  const { from, id, sender, pushname } = message
+
   if (!isRegistered) return await rahman.reply(from, ind.notRegistered(), id)
   if (!isLevelingOn) return await rahman.reply(from, ind.levelingNotOn(), id)
   if (!isGroupMsg) return await rahman.reply(from, ind.groupOnly(), id)
   const userLevel = level.getLevelingLevel(sender.id, _level)
   const userXp = level.getLevelingXp(sender.id, _level)
   const ppLink = await rahman.getProfilePicFromServer(sender.id)
+
   if (ppLink === undefined) {
-    var pepe = errorImg
+    pepe = errorImg
   } else {
     pepe = ppLink
   }

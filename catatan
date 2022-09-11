@@ -1,3 +1,7 @@
+======== Variabel ========
+args = text setelah perintah (array)
+q = gabungan args (array to string)
+
 ======== Stiker ========
 .stiker:tf/transparan/transparent/bg textAnda
 .stiker textAnda

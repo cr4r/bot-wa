@@ -1540,10 +1540,10 @@ exports.menuLeveling = () => {
     return `
 *── 「 LEVELING 」 ──*
 
-1. *${prefix}level*
+1. *level*
 Untuk melihat level kamu.
 Aliases: -
-Usage: *${prefix}level*
+Usage: *level*
 
 2. *${prefix}leaderboard*
 Untuk melihat leaderboard.
