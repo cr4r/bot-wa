@@ -84,7 +84,8 @@ module.exports = msgHandler = async (rahman = new Client(), message) => {
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video' || type === 'buttons_response') && caption) && caption.startsWith(prefix)) ? caption : ''
         let args = body.trim().split(/ +/).slice(1)
-        const uaOverride = config.uaOverride
+
+        const isUrl = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/gi)
 
         /********** VALIDATOR **********/
         const isCmd = body.startsWith(prefix)
@@ -261,27 +262,43 @@ module.exports = msgHandler = async (rahman = new Client(), message) => {
         // Anti spam
         if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
 
-        // Melarang menggunakan bot tanpa register
-        if (!isRegistered) return await rahman.reply(from, ind.notRegistered(), id)
+        const optionMSG = {
+            "perintah": command.split(':'),
+            "mediaEncrypt": isQuotedImage | isQuotedVideo | isQuotedSticker | isQuotedGif | isQuotedAudio | isQuotedVoice ? quotedMsg : message,
+            "configStiker": config.stiker,
+            "uaOverride": config.uaOverride,
+            args, _registered, time, ind, isUrl,
+            cmd, command, prefix, chats, isCmd, isBlocked,
+            isOwner, isBanned, isPremium, isRegistered, isGroupAdmins,
+            isBotGroupAdmins, isNsfw, isWelcomeOn, isDetectorOn, isLevelingOn,
+            isAutoStickerOn, isAntiNsfw, isMute, isAfkOn, isQuotedImage, isQuotedVideo,
+            isQuotedSticker, isQuotedGif, isQuotedAudio, isQuotedVoice, isImage, isVideo,
+            isAudio, isVoice, isGif
+        }
+
 
         // Interaksi tanpa prefix
         Object.keys(flChat).forEach(async (isi) => {
             let nlChat = fpChat[isi];
             if (nlChat.nama.includes(command)) {
                 args = args.join(' ')
-                return await nlChat[isi][isi](rahman, message, { args, cmd, command, prefix, chats, isCmd, isBlocked, isOwner, isBanned, isPremium, isRegistered, isGroupAdmins, isBotGroupAdmins, isNsfw, isWelcomeOn, isDetectorOn, isLevelingOn, isAutoStickerOn, isAntiNsfw, isMute, isAfkOn, isQuotedImage, isQuotedVideo, isQuotedSticker, isQuotedGif, isQuotedAudio, isQuotedVoice, isImage, isVideo, isAudio, isVoice, isGif })
+                return await nlChat[isi][isi](rahman, message, optionMSG)
             }
         })
 
+        // Perintah yang harus register dulu
         // Interaksi dengan prefix
+        if (!isRegistered ) return await rahman.reply(from, ind.notRegistered(), id)
         Object.keys(fpChat).forEach(async (isi) => {
+            // Melarang menggunakan bot tanpa register
             let npChat = fpChat[isi];
-            if (command.slice(0, 1) == prefix && npChat.nama.includes(command.slice(1, command.length).split(':')[0])) {
+            let isiPerintah = command.slice(1, command.length)
+
+            if (command.slice(0, 1) == prefix && npChat.nama.includes(isiPerintah).split(':')[0]) {
                 // Log
                 if (isCmd && !isGroupMsg) console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
                 if (isCmd && isGroupMsg) console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
-                args = args.join(' ')
-                return await npChat[isi][isi](rahman, message, { args, cmd, command, prefix, chats, isCmd, isBlocked, isOwner, isBanned, isPremium, isRegistered, isGroupAdmins, isBotGroupAdmins, isNsfw, isWelcomeOn, isDetectorOn, isLevelingOn, isAutoStickerOn, isAntiNsfw, isMute, isAfkOn, isQuotedImage, isQuotedVideo, isQuotedSticker, isQuotedGif, isQuotedAudio, isQuotedVoice, isImage, isVideo, isAudio, isVoice, isGif })
+                return await npChat[isi][isi](rahman, message, optionMSG)
             }
         })
     } catch (err) {

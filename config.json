@@ -28,7 +28,7 @@
             "font": "30px sans-serif",
             "textAlign": "left",
             "borderColor": "black",
-            "backgroundColor": "transparent",
+            "backgroundColor": "white",
             "lineSpacing": 0
         }
     }

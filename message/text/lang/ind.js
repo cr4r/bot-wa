@@ -58,7 +58,7 @@ exports.nsfwAlready = () => {
 }
 
 exports.addedGroup = (chat) => {
-    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register dengan cara ketik:\n*${prefix}register* nama | umur`
+    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register dengan cara ketik:\n*register* nama : umur`
 }
 
 exports.nhFalse = () => {

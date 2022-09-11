@@ -19,7 +19,7 @@
     "license": "MIT",
     "dependencies": {
         "@justalk/pornhub-api": "^3.5.0",
-        "@open-wa/wa-automate": "^4.46.0",
+        "@open-wa/wa-automate": "^4.46.2",
         "await-exec": "^0.1.2",
         "discord-canvas": "^1.4.1",
         "express": "^4.18.1",
