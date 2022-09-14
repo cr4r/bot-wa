@@ -1,16 +1,15 @@
 const textToImage = require('text2png')
 
 exports.stiker = async (rahman, message, { arg, args, perintah, mediaEncrypt, isQuotedSticker, configStiker, uaOverride, isUrl, ind, decryptMedia }) => {
-  const { txtPng } = configStiker
+  const { txtPng, img, video } = configStiker
   const { id, from } = message
   const { type, mimetype } = mediaEncrypt
 
   let cnvrt = ['link', 'url']
   let pTxtPNG = ['tf', 'transparan', 'transparent', 'nobg']
-
   if (perintah.length > 1 && pTxtPNG.includes(perintah[1])) {
     txtPng.backgroundColor = 'transparent'
-    stiker.img.removebg = true
+    img.removebg = true
   }
 
   // Jika mengirim gambar langsung text
@@ -23,7 +22,7 @@ exports.stiker = async (rahman, message, { arg, args, perintah, mediaEncrypt, is
 
       // Convert gambar ke stiker | (kirim gambar) ketik .stiker
       if (type == "image") {
-        rahman.sendImageAsSticker(from, imageBase64, stiker.img).catch(err => rahman.reply(from, ind.fail, id))
+        rahman.sendImageAsSticker(from, imageBase64, img).catch(err => rahman.reply(from, ind.fail, id))
       }
       // Convert video ke stiker bergerak | (Kirim video / Gif) ketik .stiker
       else if (type == "video" || jenis[1] == 'gif') {
@@ -50,7 +49,7 @@ exports.stiker = async (rahman, message, { arg, args, perintah, mediaEncrypt, is
       // link gambar to stiker | .stiker https://.....jpg
       else if (args.length > 0) {
         let hasil = await textToImage(mediaData, txtPng)
-        rahman.sendImageAsSticker(from, hasil, stiker.img).catch(err => rahman.reply(from, ind.fail, id))
+        rahman.sendImageAsSticker(from, hasil, img, id).catch(err => rahman.reply(from, ind.fail, id))
       } else {
         rahman.reply(from, 'Perintah stiker salah!', id)
       }
