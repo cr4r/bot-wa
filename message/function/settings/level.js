@@ -7,7 +7,7 @@ exports.level = async (rahman, message, { pushname, ar, isLevelingOn, level, gro
     const userXp = level.getLevelingXp(pengirim, _level)
     const ppLink = await rahman.getProfilePicFromServer(pengirim)
 
-    const pepe = isUrl(ppLink) ? ppLink : '../../../temp/gambar/pp-wa.jpg'
+    const pepe = isUrl(ppLink) ? ppLink : 'https://github.com/cr4r/bot-wa/raw/main/temp/gambar/pp-wa.jpg'
     const requiredXp = 5 * Math.pow(userLevel, 2) + 50 * userLevel + 100
 
 
