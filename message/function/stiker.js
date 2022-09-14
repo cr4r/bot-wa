@@ -1,6 +1,6 @@
 const textToImage = require('text2png')
 
-exports.stiker = async (rahman, message, { q, args, perintah, mediaEncrypt, isQuotedSticker, configStiker, uaOverride, isUrl, ind, decryptMedia }) => {
+exports.stiker = async (rahman, message, { arg, args, perintah, mediaEncrypt, isQuotedSticker, configStiker, uaOverride, isUrl, ind, decryptMedia }) => {
   const { txtPng } = configStiker
   const { id, from } = message
   const { type, mimetype } = mediaEncrypt
@@ -15,7 +15,7 @@ exports.stiker = async (rahman, message, { q, args, perintah, mediaEncrypt, isQu
 
   // Jika mengirim gambar langsung text
   try {
-    const mediaData = type != 'chat' ? await decryptMedia(mediaEncrypt, uaOverride) : q;
+    const mediaData = type != 'chat' ? await decryptMedia(mediaEncrypt, uaOverride) : arg;
 
     if (type != 'chat') {
       const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`;

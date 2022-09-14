@@ -108,7 +108,7 @@ Media sedang dikirim, mohon tunggu...
 }
 
 exports.notRegistered = () => {
-    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* nama | umur`
+    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*register* nama : umur`
 }
 
 exports.registered = (name, age, userId, time, serial) => {
@@ -125,7 +125,7 @@ Akun kamu telah terdaftar dengan data:
 Catatan:
 Jangan pernah menyebarkan data *serial* ke pada siapapun!
 
-Ketik *${prefix}rules* terlebih dahulu ya~
+Ketik *rules* terlebih dahulu ya~
     `
 }
 

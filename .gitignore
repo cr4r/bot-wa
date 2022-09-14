@@ -12,6 +12,7 @@ _IGNORE*
 # managed
 **.data.json
 **.node-persist**
+**database**
 # end managed
 
 # managed by open-wa

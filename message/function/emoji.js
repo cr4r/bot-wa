@@ -1,7 +1,7 @@
 const convertEmoji = require('universal-emoji-parser')
 const textToImage = require('text2png')
 
-exports.emoji = async (rahman, message, { q, args, perintah, configStiker }) => {
+exports.emoji = async (rahman, message, { arg, args, perintah, configStiker }) => {
   const { txtPng } = configStiker
   const { id, from, body, caption } = message
   const commands = caption || body || ''
@@ -10,7 +10,7 @@ exports.emoji = async (rahman, message, { q, args, perintah, configStiker }) => 
   let optionTxt = ['txt', 'text'];
 
   try {
-    let url = convertEmoji.parse(q).split('src="')[1].replace(/"\/\>/g, '')
+    let url = convertEmoji.parse(arg).split('src="')[1].replace(/"\/\>/g, '')
 
     if (perintah.length > 1 && optionImg.includes(perintah[1])) {
       return rahman.sendFileFromUrl(from, url, 'Emoji-CodersFamily.jpg', '', null, 'by: Coders Family', true)
@@ -28,7 +28,7 @@ exports.emoji = async (rahman, message, { q, args, perintah, configStiker }) => 
     }
   } catch (e) {
     if (perintah.length > 1 && optionTxt.includes(perintah[1])) {
-      let cnvrtPng = textToImage(q, txtPng);
+      let cnvrtPng = textToImage(arg, txtPng);
       let baseEn = `data:image/png;base64,${cnvrtPng.toString('base64')}`
       return rahman.sendFile(from, baseEn, 'hehe.png', '', id)
     }

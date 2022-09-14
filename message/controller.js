@@ -1,4 +1,4 @@
-const { stiker, emoji, register, level, shortlink } = require('./function');
+const { stiker, emoji, register, level, shortlink, dadu, qrcode } = require('./function');
 
 module.exports = {
   "langsung": {
@@ -7,7 +7,7 @@ module.exports = {
       register
     },
     "level": {
-      nama: ["level", "lvl", "levelup"],
+      nama: ["level", "lvl", "leveling"],
       level
     }
   },
@@ -23,6 +23,14 @@ module.exports = {
     "shortlink": {
       nama: ["shortlink"],
       shortlink
+    },
+    "dadu": {
+      nama: ["dadu"],
+      dadu
+    },
+    "qrcode": {
+      nama: ["qrcode", 'qr', 'qrc'],
+      qrcode
     }
   }
 }
