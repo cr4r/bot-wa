@@ -1825,11 +1825,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 // Example case if you have license key
             /*case prefix+'menu':
             case prefix+'help':
-               await bocchi.sendButtons(from, "Hallo, saya bocchi bot.\nsilahkan klik button do bawah untuk melihan menu."),
-               [
-                  {id:"menu","text":"Menu"},
-               ],
-               "", "© Bocchi Bot")
+               await bocchi.sendButtons(from, "Hallo, saya bocchi bot.\nsilahkan klik button do bawah untuk melihan menu."), [ {id:"menu","text":"Menu"}, ], "", "© Bocchi Bot")
                await bocchi.reply(from, menuId.textMenu(pushname, prefix), id)
             break*/
             case prefix+'menu':
