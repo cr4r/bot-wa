@@ -47,6 +47,7 @@ const limitCount = 25
 /********** END OF UTILS **********/
 
 /********** DATABASES **********/
+console.log(__dirname, 'dddd')
 const _nsfw = JSON.parse(fs.readFileSync('./database/group/nsfw.json'))
 const _antilink = JSON.parse(fs.readFileSync('./database/group/antilink.json'))
 const _antinsfw = JSON.parse(fs.readFileSync('./database/group/antinsfw.json'))
@@ -305,7 +306,7 @@ module.exports = msgHandler = async (rahman = new Client(), message) => {
     })
 
   } catch (err) {
-    console.error(color('[ERROR]', 'red'), err)
+    console.error(color('[Kode di pesan error!]', 'red'), err)
   }
 }
 /********** END OF MESSAGE HANDLER **********/

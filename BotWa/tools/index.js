@@ -69,6 +69,7 @@ const options = (start) => {
         headless: true,
         qrTimeout: 0,
         authTimeout: 0,
+        logConsole: true,
         restartOnCrash: start,
         cacheEnabled: false,
         multiDevice: true, // change to true if you want run multidevice mode
@@ -77,7 +78,7 @@ const options = (start) => {
         killProcessOnBrowserClose: true,
         throwErrorOnTosBlock: false,
         disableSpins: true,
-        chromiumArgs: chromeArgs
+        chromiumArgs: chromeArgs,
     }
     return options
 }
