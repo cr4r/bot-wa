@@ -29,6 +29,7 @@ const Math = require('math')
 
 const levelRole = require('./levelRole');
 const configStiker = require('../config').stiker
+const base_dir = process.env.base_botwa
 
 /********** END OF MODULES **********/
 
@@ -47,22 +48,22 @@ const limitCount = 25
 /********** END OF UTILS **********/
 
 /********** DATABASES **********/
-console.log(__dirname, 'dddd')
-const _nsfw = JSON.parse(fs.readFileSync('./database/group/nsfw.json'))
-const _antilink = JSON.parse(fs.readFileSync('./database/group/antilink.json'))
-const _antinsfw = JSON.parse(fs.readFileSync('./database/group/antinsfw.json'))
-const _leveling = JSON.parse(fs.readFileSync('./database/group/leveling.json'))
-const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
-const _autosticker = JSON.parse(fs.readFileSync('./database/group/autosticker.json'))
-const _ban = JSON.parse(fs.readFileSync('./database/bot/banned.json'))
-const _premium = JSON.parse(fs.readFileSync('./database/bot/premium.json'))
-const _mute = JSON.parse(fs.readFileSync('./database/bot/mute.json'))
-const _registered = JSON.parse(fs.readFileSync('./database/bot/registered.json'))
-const _level = JSON.parse(fs.readFileSync('./database/user/level.json'))
-let _limit = JSON.parse(fs.readFileSync('./database/user/limit.json'))
-const _afk = JSON.parse(fs.readFileSync('./database/user/afk.json'))
-const _stick = JSON.parse(fs.readFileSync('./database/bot/sticker.json'))
-const _setting = JSON.parse(fs.readFileSync('./database/bot/setting.json'))
+
+const _nsfw = JSON.parse(fs.readFileSync(base_dir + 'database/group/nsfw.json'))
+const _antilink = JSON.parse(fs.readFileSync(base_dir + 'database/group/antilink.json'))
+const _antinsfw = JSON.parse(fs.readFileSync(base_dir + 'database/group/antinsfw.json'))
+const _leveling = JSON.parse(fs.readFileSync(base_dir + 'database/group/leveling.json'))
+const _welcome = JSON.parse(fs.readFileSync(base_dir + 'database/group/welcome.json'))
+const _autosticker = JSON.parse(fs.readFileSync(base_dir + 'database/group/autosticker.json'))
+const _ban = JSON.parse(fs.readFileSync(base_dir + 'database/bot/banned.json'))
+const _premium = JSON.parse(fs.readFileSync(base_dir + 'database/bot/premium.json'))
+const _mute = JSON.parse(fs.readFileSync(base_dir + 'database/bot/mute.json'))
+const _registered = JSON.parse(fs.readFileSync(base_dir + 'database/bot/registered.json'))
+const _level = JSON.parse(fs.readFileSync(base_dir + 'database/user/level.json'))
+let _limit = JSON.parse(fs.readFileSync(base_dir + 'database/user/limit.json'))
+const _afk = JSON.parse(fs.readFileSync(base_dir + 'database/user/afk.json'))
+const _stick = JSON.parse(fs.readFileSync(base_dir + 'database/bot/sticker.json'))
+const _setting = JSON.parse(fs.readFileSync(base_dir + 'database/bot/setting.json'))
 /********** END OF DATABASES **********/
 
 /********** MESSAGE HANDLER **********/
@@ -130,7 +131,7 @@ module.exports = msgHandler = async (rahman = new Client(), message) => {
       const reset = []
       _limit = reset
       console.log('Hang tight, it\'s time to reset usage limits...')
-      fs.writeFileSync('./database/user/limit.json', JSON.stringify(_limit))
+      fs.writeFileSync(baee_dir + 'database/user/limit.json', JSON.stringify(_limit))
       console.log('Success!')
     }, {
       scheduled: true,
@@ -249,7 +250,7 @@ module.exports = msgHandler = async (rahman = new Client(), message) => {
       }
       if (afk.checkAfkUser(sender.id, _afk) && !isCmd) {
         _afk.splice(afk.getAfkPosition(sender.id, _afk), 1)
-        fs.writeFileSync('./database/user/afk.json', JSON.stringify(_afk))
+        fs.writeFileSync(base_dir + 'database/user/afk.json', JSON.stringify(_afk))
         await rahman.sendText(from, ind.afkDone(pushname))
       }
     }

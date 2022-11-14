@@ -37,9 +37,12 @@
         "moment-timezone": "^0.5.37",
         "needle": "^3.1.0",
         "node-cron": "^3.0.2",
+        "supertest": "^6.3.1",
         "text2png": "^2.3.0",
         "universal-emoji-parser": "^0.5.28",
-        "video-url-link": "git+https://github.com/YogaSakti/video-url-link.git"
+        "video-url-link": "git+https://github.com/YogaSakti/video-url-link.git",
+        "winston": "^3.8.2",
+        "winston-daily-rotate-file": "^4.7.1"
     },
     "devDependencies": {
         "eslint": "^8.0.0"

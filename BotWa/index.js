@@ -3,6 +3,7 @@ const { create, Client } = require('@open-wa/wa-automate')
 const figlet = require('figlet')
 const canvas = require('discord-canvas')
 const fs = require('fs-extra')
+const base_dir = process.env.base_botwa
 
 const { color, options } = require('./tools')
 const { ind, eng } = require('./message/text/lang/')
@@ -11,7 +12,7 @@ const { version, bugs } = require('../package.json')
 const msgHandler = require('./message/index')
 const { ownerBot } = require('./config.json')
 
-const { groupLimit, memberLimit } = require('./database/bot/setting.json')
+const { groupLimit, memberLimit } = require(base_dir + 'database/bot/setting.json')
 const { levelRole } = require('./message/levelRole')
 
 const express = require('express')
@@ -20,7 +21,7 @@ const exec = require('await-exec')
 
 const start = (rahman = new Client()) => {
     console.log(color(figlet.textSync('BotRahman', 'Larry 3D'), 'cyan'))
-    console.log(color('=> Bot sukses dijalankan! Database:', 'yellow'), color(loader.getAllDirFiles('./database').length), color('Library:', 'yellow'), color(loader.getAllDirFiles('./lib').length), color('Function:', 'yellow'), color(loader.getAllDirFiles('./function').length))
+    console.log(color('=> Bot sukses dijalankan! Database:', 'yellow'), color(loader.getAllDirFiles(base_dir + 'database').length), color('Library:', 'yellow'), color(loader.getAllDirFiles('./lib').length), color('Function:', 'yellow'), color(loader.getAllDirFiles('./function').length))
     console.log(color('=> Source code version:', 'yellow'), color(version))
     console.log(color('=> Bug? Error? Suggestion? Visit here:', 'yellow'), color(bugs.url))
     console.log(color('[RAHMAN]'), color('BotRahman is now online!', 'yellow'))
@@ -101,7 +102,7 @@ const start = (rahman = new Client()) => {
     })
 
     rahman.onGlobalParticipantsChanged(async (event) => {
-        const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
+        const _welcome = JSON.parse(fs.readFileSync(base_dir + 'database/group/welcome.json'))
         const isWelcome = _welcome.includes(event.chat)
         const gcChat = await rahman.getChatById(event.chat)
         const pcChat = await rahman.getContact(event.who)
