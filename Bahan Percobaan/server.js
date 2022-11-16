@@ -5,4 +5,8 @@ global.Logger = new logger()
 
 let router = require('./router.js')
 
-console.log('Hasil :', router)
+
+setInterval(() => {
+  console.log('hallo')
+}, 2000)
+// console.log('Hasil :', router)

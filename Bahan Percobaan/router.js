@@ -1,4 +1,5 @@
-module.exports = Logger.info('hallsso')
+module.exports = Logger.logger({ formatLog: 'json' }).info('hallsso')
+module.exports = Logger.logger({ formatLog: 'printf' }).info('hallsso')
 
-dvdsvds()
-// module.exports = Logger.infoFile('hallo')
+
+// dvdsvds()

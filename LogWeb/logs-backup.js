@@ -20,11 +20,11 @@ class log {
   };
 
   constructor(isi) {
-    const waktuGantiFile = isi.waktuGantiFile | '30 menit'
+    // const waktuGantiFile = isi.waktuGantiFile | '30 menit'
 
     // TypeFile harus lebih dari 5 menit
-    let wgf = waktuGantiFile ? waktuGantiFile.split(' ')
-    this.waktuGantiFile = wgf[0] >= 6 ? `${wgf[0]} ${wgf[1]}` : `30 ${wgf[1]}`
+    // let wgf = waktuGantiFile ? waktuGantiFile.split(' ')
+    // this.waktuGantiFile = wgf[0] >= 6 ? `${wgf[0]} ${wgf[1]}` : `30 ${wgf[1]}`
   }
 
   // Membuat garis pemisah

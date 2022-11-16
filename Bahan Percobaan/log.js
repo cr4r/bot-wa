@@ -5,15 +5,42 @@ const DailyRotate = require('winston-daily-rotate-file')
 
 class log {
   base_dir = `${process.env.base_log}LogHarian/`
-  // logger = winston.createLogger(this.option)
+  time = moment().tz('Asia/Jakarta')
+  dirname = `${this.base_dir}${this.time.format('DD-MM-YYYY')}/`
+
   constructor(isi = {}) {
-    const { waktuGantiFile } = isi
+    const { waktuGantiFile, jenisLog, formatLog } = isi
 
-    // this.waktuGantiFile = waktuGantiFile ? waktuGantiFile : '30m'
+    // Menit, Jam, Hari
+    this.typeWaktuGF = waktuGantiFile ? waktuGantiFile.toLowerCase().split(' ') : '30 menit'.split(' ')
 
-    // TypeFile harus lebih dari 5 menit
-    let wgf = waktuGantiFile ? waktuGantiFile.split(' ') : '30 menit'.split(' ')
-    this.waktuGantiFile = wgf[0] >= 6 ? `${wgf[0]} ${wgf[1]}` : `30 ${wgf[1]}`
+    this.time = moment().tz('Asia/Jakarta')
+    this.formatLog = formatLog ? formatLog : '.log'
+    this.jenisLog = jenisLog ? jenisLog : 'BotWa'
+    this.namaFile = `${this.time.format('HH-mm-ss')}-${this.jenisLog}`
+
+    this.cvMenit = 1000 * 60
+    this.cvJam = this.cvMenit * 60
+    this.cvHari = this.cvJam * 24
+
+
+    if (this.typeWaktuGF[1] == 'menit') {
+      this.waktuGantiFileMs = this.cvMenit * this.typeWaktuGF[0]
+    } else if (this.typeWaktuGF[1] == 'jam') {
+      this.waktuGantiFileMs = this.cvJam * this.typeWaktuGF[0]
+    } else {
+      this.waktuGantiFileMs = this.cvHari * this.typeWaktuGF[0]
+    }
+
+    // Mengganti Nama File secara berulang dalam beberapa menit/jam/hari
+    // this.intervalNamaFile = setInterval(() => {
+    //   this.namaFile = `${this.time.format('HH-mm-ss')}-${this.jenisLog}`
+    //   this.dirname = `${this.base_dir}${this.time.format('DD-MM-YYYY')}/`
+    // }, this.waktuGantiFileMs)
+    this.intervalNamaFile = setInterval(() => {
+      this.namaFile = `${this.time.format('HH-mm-ss')}-${this.jenisLog}`
+      this.dirname = `${this.base_dir}${this.time.format('DD-MM-YYYY')}/`
+    }, 2000)
   }
   // Mengecek folder ada atau tidak
   // checkFolder(dirPath) {
@@ -27,6 +54,24 @@ class log {
   //   }
   // }
 
+  gantiInterval(waktu = '30 menit') {
+    clearInterval(this.intervalNamaFile)
+    let typeWaktu = waktu.toLowerCase().split(' ')
+
+    if (typeWaktu[1] == 'menit') {
+      this.waktuGantiFileMs = this.cvMenit * typeWaktu[0]
+    } else if (typeWaktu[1] == 'jam') {
+      this.waktuGantiFileMs = this.cvJam * typeWaktu[0]
+    } else {
+      this.waktuGantiFileMs = this.cvHari * typeWaktu[0]
+    }
+
+    this.intervalNamaFile = setInterval(() => {
+      this.namaFile = this.time.format('HH-mm-ss')
+      this.dirname = `${this.base_dir}${this.time.format('DD-MM-YYYY')}/`
+    }, this.waktuGantiFileMs)
+  }
+
   listDir(lok = "", mode = "all") {
     let listnya;
     mode = mode.toLowerCase();
@@ -38,88 +83,81 @@ class log {
     return listnya
   }
 
-  infoFile() {
-    let typeWaktu, namaFileLama, lokasiFileLama, waktuLama, jam, jamLama, menit, menitLama, time, tanggal, waktu, lokasiFolder, listFile, namaFile
+  cekUmurFile(lokFile, jenis = "ubah") {
+    this.time = moment()
+    let infoFile = fs.lstatSync(lokFile)
+    let dapat = jenis == 'ubah' ? infoFile.mtime : infoFile.birthtime
 
-    time = moment().tz('Asia/Jakarta')
-    tanggal = time.format('DD-MM-YYYY')
-    waktu = time.format('HH-mm-ss')
-    lokasiFolder = this.base_dir + tanggal
-
-    listFile = this.listDir(lokasiFolder, 'file')
-    namaFile = `${waktu}`
-    // Menentukan File baru atau memakai file lama
-    if (listFile.length > 0) {
-      typeWaktu = this.waktuGantiFile.toLocaleLowerCase().split(' ')
-      namaFileLama = listFile[listFile.length - 1]
-      lokasiFileLama = `${lokasiFolder}${namaFileLama}`
-
-      waktuLama = namaFileLama.split('-BotWa')[0]
-
-      jam = waktu.split('-')[0]
-      jamLama = waktuLama.split('-')[0]
-
-      menit = waktu.split('-')[1]
-      menitLama = waktuLama.split('-')[1]
-
-      if (typeWaktu[1] == 'menit') {
-        if (jam == jamLama) {
-          // Jika File kurang dari type waktu yang telah ditentukan, Maka masih memakai File lama
-          if ((menit - menitLama) <= typeWaktu[0] > 5 ? typeWaktu[0] : 30) {
-            namaFile = `${waktuLama}`
-          }
-        }
-      } else if (typeWaktu[1] == 'jam') {
-        // Jika sudah melewati jam yang telah ditentukan, maka akan membuat file baru
-        if ((jam - jamLama) < typeWaktu[0]) {
-          namaFile = `${waktuLama}`
-        }
-      }
-    }
-
+    let menit = this.time.diff(dapat, 'minute')
+    let jam = this.time.diff(dapat, 'hours')
+    let hari = this.time.diff(dapat, 'days')
     return {
-      typeWaktu, namaFileLama, lokasiFileLama, waktuLama, jam, jamLama, menit, menitLama, time, tanggal, waktu, lokasiFolder, listFile, namaFile
+      menit, jam, hari
     }
   }
 
-  logger(level = 'info', jenis = "BotWa") {
-    const { waktu, namaFile, time, lokasiFolder, typeWaktu, namaFileLama, lokasiFileLama, waktuLama, jam, jamLama, menit, menitLama, tanggal, listFile } = this.infoFile()
-    let datePattern = 'YYYY-MM-DD', maxSize = "5m", maxFile = "30d", dirname = `${this.base_dir}${time.format('DD-MM-YYYY')}/`
+  changeTimeZone(waktu = moment(), format = 'HH-mm-ss') {
+    return waktu.tz('Asia/Jakarta').format(format)
+  }
 
-    let configDaily = {
-      dirname: dirname,
-      filename: `${namaFile}-${jenis}-%DATE%.log`,
-      datePattern: datePattern,
-      zippedArchive: true,
-      maxSize: maxSize,
-      maxFile: maxFile
+  logger(param = {}) {
+    var { jenis, level, formatLog } = param
+
+    jenis = jenis ? jenis : 'BotWa'
+    level = level ? level : 'info'
+    formatLog = formatLog ? formatLog : 'printf'
+
+    this.time = moment().tz('Asia/Jakarta')
+    let formatLogging, datePattern = 'YYYY-MM-DD',
+      maxSize = "5m",
+      maxFile = "30d",
+      date = this.changeTimeZone(moment(), datePattern),
+      namaFile = `${this.namaFile}-%DATE%.${this.formatLog}`;
+
+    process.env.fileLog = this.dirname + `${namaFile}-%DATE%.${this.formatLog}`
+
+    // Format didalam file
+    if (formatLog == "json") {
+      formatLogging = winston.format.json()
+    } else if (formatLog == "simple") {
+      formatLogging = winston.format.simple()
+    } else if (formatLog == "logstash") {
+      formatLogging = winston.format.logstash()
+    } else {
+      formatLogging = winston.format.printf(log => {
+        let levelLog = log.level.toUpperCase()
+        return `${date} | ${log.exception ? 'Exception' : levelLog}\n${log.message}\n`
+      })
     }
-
-    let transDaily = new DailyRotate(configDaily)
 
     return winston.createLogger({
       level: level,
       transports: [
-        transDaily,
         new winston.transports.Console({
-          level: 'debug'
+          level: 'debug',
+          colorize: true
+        }),
+        new DailyRotate({
+          dirname: this.dirname,
+          filename: `${namaFile}-%DATE%.log`,
+          datePattern: datePattern,
+          zippedArchive: true,
+          maxSize: maxSize,
+          maxFile: maxFile
         }),
         new DailyRotate({
           handleExceptions: true,
           handleRejections: true,
           level: 'error',
-          dirname: `${dirname}error/`,
-          filename: `${namaFile}-${jenis}-%DATE%.log`,
+          dirname: `${this.dirname}error/`,
+          filename: `${namaFile}-%DATE%.log`,
           datePattern: datePattern,
           zippedArchive: true,
           maxSize: maxSize,
           maxFile: maxFile
         }),
       ],
-      format: winston.format.printf(log => {
-        let levelLog = log.level.toUpperCase()
-        return `${waktu} | ${log.exception ? 'Exception' : levelLog}\n${log.message}\n`
-      })
+      format: formatLogging
     })
   }
 
