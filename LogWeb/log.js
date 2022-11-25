@@ -43,7 +43,6 @@ class log {
       if (jenisUmurFileLama < interval && sizeFileLama[sizeFileC[1]] < sizeFileC[0]) {
         // Maka akan memakai file lama
         this.namaFile = path.parse(namaFileLama).name.replace('-' + this.time.format(this.datePattern), '-%DATE%')
-        console.log('file lama')
       }
     }
     this.IntervalFile(this.typeWaktuGF.join(' '))
@@ -62,7 +61,6 @@ class log {
     } else {
       this.waktuGantiFileMs = this.cvHari * typeWaktu[0]
     }
-    console.log('===>', this.namaFile)
     this.intervalNamaFile = setInterval(() => {
       this.time = moment().tz('Asia/Jakarta')
       // 12-40-50-Bot-Wa-%DATE%
@@ -132,7 +130,7 @@ class log {
       maxFile = "30d",
       date = this.changeTimeZone(moment(), this.datePattern);
 
-    process.env.fileLog = this.namaFile
+    process.env.fileLog = this.dirname + this.jenisLog + '/' + this.namaFile.replace('%DATE%', date) + this.formatFile
 
     // Format didalam file
     if (formatLog == "json") {
@@ -189,10 +187,19 @@ class log {
     })
   }
 
-  convertFileToJSON(lokasi) {
-    let filenya = fs.readFileSync(lokasi).toString().trim().split('}\n')
-    let hasil = filenya.map(a => { eval('aaa=' + b[1] + '}'); return aaa })
-    return hasil
+  convertFileToJSON(lokasi, jenis = 'json') {
+    let aaa,
+      filenya = fs.readFileSync(lokasi, 'utf-8').trim().split('}\n'),
+      hasil = filenya.map(a => {
+        try {
+          eval('aaa=' + a + '}');
+        } catch (e) {
+          eval('aaa=' + a);
+        }
+        return aaa
+      })
+    if (jenis == 'json') return hasil
+    return JSON.stringify(hasil)
   }
 
   info(isi) {
