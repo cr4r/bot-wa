@@ -1,63 +1,60 @@
 const winston = require('winston')
 const moment = require('moment-timezone')
 const fs = require('fs-extra')
+const path = require('path')
 const DailyRotate = require('winston-daily-rotate-file')
+const { access } = require('fs/promises')
 
 class log {
+  intervalNamaFile
   base_dir = `${process.env.base_log}LogHarian/`
   time = moment().tz('Asia/Jakarta')
-  dirname = `${this.base_dir}${this.time.format('DD-MM-YYYY')}/`
+  maxSize = "5m"
+  datePattern = 'YYYY-MM-DD'
 
-  constructor(isi = {}) {
-    const { waktuGantiFile, jenisLog, formatLog } = isi
+  constructor() {
+    this.cvMenit = 1000 * 60
+    this.cvJam = this.cvMenit * 60
+    this.cvHari = this.cvJam * 24
+  }
+
+  init(isi = {}) {
+    const { waktuGantiFile, jenisLog, formatFile } = isi
 
     // Menit, Jam, Hari
     this.typeWaktuGF = waktuGantiFile ? waktuGantiFile.toLowerCase().split(' ') : '30 menit'.split(' ')
 
     this.time = moment().tz('Asia/Jakarta')
-    this.formatLog = formatLog ? formatLog : '.log'
     this.jenisLog = jenisLog ? jenisLog : 'BotWa'
-    this.namaFile = `${this.time.format('HH-mm-ss')}-${this.jenisLog}`
+    this.dirname = `${this.base_dir}${this.time.format('DD-MM-YYYY')}/`
+    this.namaFile = `${this.time.format('HH-mm-ss')}-%DATE%`
+    // Awal log jika ada log sebelumnya blum penuh, maka akan pakai file sebelumnya
+    let listFile = this.listDir(`${this.dirname}${this.jenisLog}/`, 'file')
+    if (listFile.length > 0) {
+      let namaFileLama = listFile[listFile.length - 1]
+      let umurFileLama = this.cekUmurFile(`${this.dirname}${this.jenisLog}/${namaFileLama}`)
+      let sizeFileLama = umurFileLama.size
+      let sizeFileC = this.maxSize.split('')
+      let jenisUmurFileLama = umurFileLama[this.typeWaktuGF[1]]
+      let interval = parseInt(this.typeWaktuGF[0])
 
-    this.cvMenit = 1000 * 60
-    this.cvJam = this.cvMenit * 60
-    this.cvHari = this.cvJam * 24
-
-
-    if (this.typeWaktuGF[1] == 'menit') {
-      this.waktuGantiFileMs = this.cvMenit * this.typeWaktuGF[0]
-    } else if (this.typeWaktuGF[1] == 'jam') {
-      this.waktuGantiFileMs = this.cvJam * this.typeWaktuGF[0]
-    } else {
-      this.waktuGantiFileMs = this.cvHari * this.typeWaktuGF[0]
+      // Jika umur file (20 menit) kurang dari interval (30 menit )
+      // Dan ukuran file lama tidak lebih dari file yang telah ditentukan
+      if (jenisUmurFileLama < interval && sizeFileLama[sizeFileC[1]] < sizeFileC[0]) {
+        // Maka akan memakai file lama
+        this.namaFile = path.parse(namaFileLama).name.replace('-' + this.time.format(this.datePattern), '-%DATE%')
+        console.log('file lama')
+      }
     }
-
-    // Mengganti Nama File secara berulang dalam beberapa menit/jam/hari
-    // this.intervalNamaFile = setInterval(() => {
-    //   this.namaFile = `${this.time.format('HH-mm-ss')}-${this.jenisLog}`
-    //   this.dirname = `${this.base_dir}${this.time.format('DD-MM-YYYY')}/`
-    // }, this.waktuGantiFileMs)
-    this.intervalNamaFile = setInterval(() => {
-      this.namaFile = `${this.time.format('HH-mm-ss')}-${this.jenisLog}`
-      this.dirname = `${this.base_dir}${this.time.format('DD-MM-YYYY')}/`
-    }, 2000)
+    this.IntervalFile(this.typeWaktuGF.join(' '))
   }
-  // Mengecek folder ada atau tidak
-  // checkFolder(dirPath) {
-  //   try {
-  //     // Query the entry
-  //     var stats = fs.lstatSync(dirPath);
-  //     // Is it a directory?
-  //     if (stats.isDirectory()) return true
-  //   } catch (e) {
-  //     return false
-  //   }
-  // }
 
-  gantiInterval(waktu = '30 menit') {
+  IntervalFile(waktu = '30 menit') {
     clearInterval(this.intervalNamaFile)
+
     let typeWaktu = waktu.toLowerCase().split(' ')
 
+    // Conversi waktu ke MS
     if (typeWaktu[1] == 'menit') {
       this.waktuGantiFileMs = this.cvMenit * typeWaktu[0]
     } else if (typeWaktu[1] == 'jam') {
@@ -65,11 +62,25 @@ class log {
     } else {
       this.waktuGantiFileMs = this.cvHari * typeWaktu[0]
     }
-
+    console.log('===>', this.namaFile)
     this.intervalNamaFile = setInterval(() => {
-      this.namaFile = this.time.format('HH-mm-ss')
+      this.time = moment().tz('Asia/Jakarta')
+      // 12-40-50-Bot-Wa-%DATE%
+      this.namaFile = `${this.time.format('HH-mm-ss')}-%DATE%`
       this.dirname = `${this.base_dir}${this.time.format('DD-MM-YYYY')}/`
     }, this.waktuGantiFileMs)
+  }
+
+  // Mengecek folder ada atau tidak
+  isFolder(dirPath) {
+    try {
+      // Query the entry
+      var stats = fs.lstatSync(dirPath);
+      // Is it a directory?
+      if (stats.isDirectory()) return true
+    } catch (e) {
+      return false
+    }
   }
 
   listDir(lok = "", mode = "all") {
@@ -83,6 +94,13 @@ class log {
     return listnya
   }
 
+  konvertSize(size) {
+    let k = size * 0.001
+    let m = k * 0.001
+    let g = m * 0.001
+    return { k, m, g }
+  }
+
   cekUmurFile(lokFile, jenis = "ubah") {
     this.time = moment()
     let infoFile = fs.lstatSync(lokFile)
@@ -92,7 +110,7 @@ class log {
     let jam = this.time.diff(dapat, 'hours')
     let hari = this.time.diff(dapat, 'days')
     return {
-      menit, jam, hari
+      infoFile, size: this.konvertSize(infoFile.size), menit, jam, hari
     }
   }
 
@@ -100,25 +118,30 @@ class log {
     return waktu.tz('Asia/Jakarta').format(format)
   }
 
-  logger(param = {}) {
-    var { jenis, level, formatLog } = param
 
-    jenis = jenis ? jenis : 'BotWa'
+  logger(param = {}) {
+    var { level, formatLog } = param
+
     level = level ? level : 'info'
-    formatLog = formatLog ? formatLog : 'printf'
+    formatLog = formatLog ? formatLog : 'json'
+    this.formatFile = formatLog == 'json' ? '.json' : '.log'
 
     this.time = moment().tz('Asia/Jakarta')
-    let formatLogging, datePattern = 'YYYY-MM-DD',
-      maxSize = "5m",
+    let formatLogging,
+      maxSize = this.maxSize,
       maxFile = "30d",
-      date = this.changeTimeZone(moment(), datePattern),
-      namaFile = `${this.namaFile}-%DATE%.${this.formatLog}`;
+      date = this.changeTimeZone(moment(), this.datePattern);
 
-    process.env.fileLog = this.dirname + `${namaFile}-%DATE%.${this.formatLog}`
+    process.env.fileLog = this.namaFile
 
     // Format didalam file
     if (formatLog == "json") {
-      formatLogging = winston.format.json()
+      formatLogging = winston.format.combine(
+        winston.format.timestamp({
+          format: moment().tz('Asia/Jakarta').format('YYYY-MM-DD HH:mm:ss')
+        }),
+        winston.format.json()
+      )
     } else if (formatLog == "simple") {
       formatLogging = winston.format.simple()
     } else if (formatLog == "logstash") {
@@ -135,52 +158,105 @@ class log {
       transports: [
         new winston.transports.Console({
           level: 'debug',
+          json: false,
+          timestamp: true,
           colorize: true
         }),
         new DailyRotate({
-          dirname: this.dirname,
-          filename: `${namaFile}-%DATE%.log`,
-          datePattern: datePattern,
-          zippedArchive: true,
-          maxSize: maxSize,
-          maxFile: maxFile
+          dirname: `${this.dirname}${this.jenisLog}/`,
+          filename: this.namaFile + this.formatFile,
+          datePattern: this.datePattern,
+          timestamp: moment().tz('Asia/Jakarta'),
+          formatter(params) {
+            // Options object will be passed to the format function.
+            // It's general properties are: timestamp, level, message, meta.
+            const meta = params.meta !== undefined ? util.inspect(params.meta, { depth: null }) : '';
+            return `[${params.timestamp}] [${params.level}] [${pkg.name}] *** ${params.message} ${meta}`;
+          },
+          zippedArchive: true, maxSize, maxFile
         }),
         new DailyRotate({
           handleExceptions: true,
           handleRejections: true,
           level: 'error',
-          dirname: `${this.dirname}error/`,
-          filename: `${namaFile}-%DATE%.log`,
-          datePattern: datePattern,
-          zippedArchive: true,
-          maxSize: maxSize,
-          maxFile: maxFile
+          dirname: `${this.dirname}${this.jenisLog}/error/`,
+          filename: this.namaFile + this.formatFile,
+          datePattern: this.datePattern,
+          zippedArchive: true, maxSize, maxFile
         }),
       ],
       format: formatLogging
     })
   }
 
-  info(data) {
-    this.logger().info(data)
+  convertFileToJSON(lokasi) {
+    let filenya = fs.readFileSync(lokasi).toString().trim().split('}\n')
+    let hasil = filenya.map(a => { eval('aaa=' + b[1] + '}'); return aaa })
+    return hasil
   }
-  warn(data) {
-    this.logger().warn(data)
+
+  info(isi) {
+    if (typeof isi == 'string') {
+      let data
+      data = isi
+    } else {
+      let { data, jenisLog, formatLog } = isi
+    }
+    this.logger(isi).info(data)
   }
-  error(data) {
-    this.logger().error(data)
+  warn(isi) {
+    if (typeof isi == 'string') {
+      let data
+      data = isi
+    } else {
+      let { data, jenisLog, formatLog } = isi
+    }
+    this.logger(isi).warn(data)
   }
-  http(data) {
-    this.logger().http(data)
+  error(isi) {
+    if (typeof isi == 'string') {
+      let data
+      data = isi
+    } else {
+      let { data, jenisLog, formatLog } = isi
+    }
+    this.logger(isi).error(data)
   }
-  verbose(data) {
-    this.logger().verbose(data)
+  http(isi) {
+    if (typeof isi == 'string') {
+      let data
+      data = isi
+    } else {
+      let { data, jenisLog, formatLog } = isi
+    }
+    this.logger(isi).http(data)
   }
-  debug(data) {
-    this.logger().debug(data)
+  verbose(isi) {
+    if (typeof isi == 'string') {
+      let data
+      data = isi
+    } else {
+      let { data, jenisLog, formatLog } = isi
+    }
+    this.logger(isi).verbose(data)
   }
-  silly(data) {
-    this.logger().silly(data)
+  debug(isi) {
+    if (typeof isi == 'string') {
+      let data
+      data = isi
+    } else {
+      let { data, jenisLog, formatLog } = isi
+    }
+    this.logger(isi).debug(data)
+  }
+  silly(isi) {
+    if (typeof isi == 'string') {
+      let data
+      data = isi
+    } else {
+      let { data, jenisLog, formatLog } = isi
+    }
+    this.logger(isi).silly(data)
   }
 }
 

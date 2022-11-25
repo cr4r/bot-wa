@@ -3,14 +3,16 @@ let request = require('supertest');
 
 process.env.TZ = 'Asia/Jakarta'
 process.env.base_botwa = __dirname + '/BotWa/'
-process.env.base_log = __dirname + '/LogWeb/'
+process.env.base_log = __dirname + '/Backend/public/LogWeb/'
 
 global.Logger = new logger()
+Logger.init()
 
 global.statusServer = 'Server berjalan'
 global.statusError = ''
 
-const app = require('./Backend/app.js')
+const app = require('./Backend/app.js');
+// const { Logger } = require('winston');
 
 const port = process.env.PORT || 1906 || 5000 || 3000
 
